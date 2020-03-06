@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using senai.Filmes.WebApi.Domains;
@@ -66,8 +67,9 @@ namespace senai.Filmes.WebApi.Controllers
             return Ok(generoSelecionado);
         }
 
+        //sem o role obriga o user a estar logado (gerar token)
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
-
         public IActionResult Post(GeneroDomain generoJSON)
         {
             _generoRepository.Cadastrar(generoJSON);
@@ -79,7 +81,6 @@ namespace senai.Filmes.WebApi.Controllers
         }
 
         [HttpPut]
-
         public IActionResult Atualizar(GeneroDomain generoJSON)
         {
             _generoRepository.Atualizar(generoJSON);
